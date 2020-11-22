@@ -1,0 +1,23 @@
+li.select2-selection__choice {
+    background-color: #4c63c3 !important;
+}
+.product_image_150_100{
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
+}
+.container_image_detail{
+ margin-top: 20px;
+}
+.container_image_feature{
+    margin-top: 20px;
+}
+.alert.alert-danger {
+    float: right;
+    padding: 2px;
+    padding-left: 15%;
+    padding-right: 15%;
+}
+
+
+

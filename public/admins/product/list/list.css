@@ -1,0 +1,13 @@
+.product_image_150_100{
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
+}
+span.fa.fa-thumbs-down {
+    color: red;
+    font-size: 40px;
+}
+span.fa.fa-thumbs-up {
+    font-size: 40px;
+}
+

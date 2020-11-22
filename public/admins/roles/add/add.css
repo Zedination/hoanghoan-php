@@ -1,0 +1,27 @@
+.card-header{
+    background-color: #00e765;
+    font-size: 22px;
+    text-align: center;
+    color: red;
+}
+.btn-primary {
+    padding: 10px 30px;
+    margin-left: 45%;
+    margin-bottom: 20px;
+}
+.alert.alert-danger {
+    float: right;
+    padding: 2px;
+    padding-left: 15%;
+    padding-right: 15%;
+}
+input[type='checkbox']{
+    transform: scale(1.3);
+    margin-right: 10px;
+}
+.check_all{
+    font-size: 20px;
+    color: #0000cc;
+    font-family: Arial;
+    margin-bottom: 10px;
+}

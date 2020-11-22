@@ -1,0 +1,10 @@
+li.select2-selection__choice {
+    background-color: #4c63c3 !important;
+}
+.alert.alert-danger {
+    float: right;
+    padding: 2px;
+    padding-left: 15%;
+    padding-right: 15%;
+}
+
