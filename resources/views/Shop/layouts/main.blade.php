@@ -47,4 +47,102 @@
 <!-- Script -->
 <script type="text/javascript" src="/shop/js/javascript.js"></script>
 @yield('my_javascript')
+{{--firebase script--}}
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-messaging.js"></script>
+<script>
+    var firebaseConfig = {
+        apiKey: "AIzaSyDNITRMjPnUsnGFbfKCWCWJ2mdXWcVe6rE",
+        authDomain: "xuongmoc-c1e83.firebaseapp.com",
+        databaseURL: "https://xuongmoc-c1e83.firebaseio.com",
+        projectId: "xuongmoc-c1e83",
+        storageBucket: "xuongmoc-c1e83.appspot.com",
+        messagingSenderId: "380833687706",
+        appId: "1:380833687706:web:0b98ae685bd9036d0c5723",
+        measurementId: "G-F5EXM636YK"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+    const messaging = firebase.messaging();
+    // messaging.usePublicVapidKey('BIPiSsxrZOJvSS1V_EX6A9zcX4mG9t88jUbdFj-aTw5fgb_WP5F50wSb_STkgtS158j0fYGKocbAYl0EZOLCi5c');
+    // messaging
+    //     .requestPermission()
+    //     .then(function () {
+    //         console.log("Notification permission granted.");
+    //         // get the token in the form of promise
+    //         return messaging.getToken()
+    //     })
+    //     .then(function (token) {
+    //         console.log(token);
+    //     })
+    //     .catch(function (err) {
+    //         console.log("Unable to get permission to notify.", err);
+    //     });
+    // messaging.onMessage((payload) => {
+    //     console.log('Message received. ', payload);
+    //     // Customize notification here
+    //     const notificationTitle = "Background Message Title";
+    //     const notificationOptions = {
+    //         body: payload.data.content,
+    //         icon: "/itwonders-web-logo.png",
+    //     };
+    //     let thongBao = new Notification(notificationTitle, notificationOptions);
+    //     thongBao.onclick = function(event){
+    //         thongBao.close();
+    //         window.open("https://google.com.vn");
+    //     }
+    //
+    // });
+    // messaging.getToken({vapidKey: 'BIPiSsxrZOJvSS1V_EX6A9zcX4mG9t88jUbdFj-aTw5fgb_WP5F50wSb_STkgtS158j0fYGKocbAYl0EZOLCi5c'}).then((currentToken) => {
+    //     if (currentToken) {
+    //         console.log(currentToken);
+    //     }
+    // }).catch((err) => {
+    //     console.log('An error occurred while retrieving token. ', err);
+    // });
+    messaging.onMessage((payload) => {
+        console.log('Message received. ', payload);
+        const notificationTitle = payload.data.title;
+        const notificationOptions = {
+                image: payload.data.image,
+                body: payload.data.content,
+                icon: "https://xuongmoc.org/shop/images/logo.png"
+            };
+            let thongBao = new Notification(notificationTitle, notificationOptions);
+            thongBao.onclick = function(event){
+                thongBao.close();
+                window.open(payload.data.url);
+            }
+    });
+</script>
+<button style="position: fixed; bottom: 100px; right: 40px;" id = "subscribe" class="btn btn-danger"><i class="fas fa-bell"></i></button>
+<script>
+    $(()=>{
+        $('#subscribe').click(()=>{
+            let confirmBox = confirm("Bạn có muốn đăng ký nhận thông báo không!");
+            if(confirmBox){
+                messaging.getToken({vapidKey: 'BIPiSsxrZOJvSS1V_EX6A9zcX4mG9t88jUbdFj-aTw5fgb_WP5F50wSb_STkgtS158j0fYGKocbAYl0EZOLCi5c'}).then((currentToken) => {
+                    if (currentToken) {
+                        console.log(currentToken);
+                        $.ajax({
+                            type: 'post',
+                            url: "/api/product/notification",
+                            data: {
+                                token: currentToken
+                            }
+                        })
+                    }
+                }).catch((err) => {
+                    console.log('An error occurred while retrieving token. ', err);
+                    alert("Bạn cần cho phép trang web gửi thông báo để nhập cập nhật các sản phẩm mới nhất!");
+                });
+            }
+        });
+    })
+</script>
 </html>

@@ -18,3 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('product/search','SearchController@searchProduct')->name('product.search');
+Route::post('product/notification','SearchController@subscribeNotification')->name('product.notify');

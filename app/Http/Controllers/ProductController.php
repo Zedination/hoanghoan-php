@@ -7,6 +7,7 @@ use App\Http\Requests\AddProductRequest;
 use App\Material;
 use App\ProductImage;
 use App\Products;
+use GuzzleHttp\Client;
 use App\Traits\DeleteItemTrait;
 use App\Traits\StorageImageTrait;
 use Illuminate\Http\Request;
@@ -67,10 +68,32 @@ class ProductController extends Controller
                $pro->getMaterial()->attach($request->materials);
             }
             DB::commit();
+//            $sender = new FcmService("AIzaSyDNITRMjPnUsnGFbfKCWCWJ2mdXWcVe6rE");
+//            if($deviceTokens!=null&&count($deviceTokens)>0){
+//                PushNotificationJob::dispatch('sendBatchNotification', [
+//                    $deviceTokens,
+//                    [
+//                        'topicName' => 'new_product',
+//                        'title' => 'Bạn ơi, có sản phẩm mới, hãy vào xem ngay!',
+//                        'body' => $request->name,
+//                        'image' => 'https://fallbacks.carbonads.com/nosvn/fallbacks/dabf8eec0afae2a669e68d8dc1092605.jpg'
+//                    ],
+//                ]);
+//            }
+//            $data = array('topicName' => 'new_product',
+//                'title' => 'Bạn ơi, có sản phẩm mới, hãy vào xem ngay!',
+//                'body' => $request->name,
+//                'image' => 'https://fallbacks.carbonads.com/nosvn/fallbacks/dabf8eec0afae2a669e68d8dc1092605.jpg');
+//            $sender->sendBatchNotification($deviceTokens,$data);
+            $content = $request->name;
+            $url = asset('shop/product_detail/'.$dataProduct['slug'].'/'.$pro->id);
+            $image = empty($dataFeatureImage) ? "https://i.pinimg.com/originals/b0/3a/29/b03a295fdbe6094acccf7f021b986d8c.jpg" : 'storage/product/1/'.$dataFeatureImage['file_path'];
+            $this->sendSimpleNotification($content, $url,$image);
             return redirect()->route('product.index');
         }catch (\Exception $exception){
             DB::rollBack();
             Log::error('Message:'.$exception->getMessage().'Line'.$exception->getLine());
+            dd($exception);
         }
     }
     public function edit($id){
@@ -122,5 +145,26 @@ class ProductController extends Controller
     public function delete($id){
        $this->deleteProduct($id);
        return $this->deleteItem($this->product,$id);
+    }
+
+    public function sendSimpleNotification($content, $url, $image){
+        $data = [
+            "content" => $content,
+            "url" => $url,
+            "image" => $image
+        ];
+        try {
+            $client = new Client();
+            $result = $client->request('POST', 'http://localhost:8080/send-notification', [
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => $data,
+                'timeout' => 3000,
+            ]);
+        } catch (Exception $e) {
+            Log::debug($e);
+        }
+        return $result->getBody();
     }
 }
