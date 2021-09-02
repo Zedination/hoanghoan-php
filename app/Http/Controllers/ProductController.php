@@ -151,6 +151,7 @@ class ProductController extends Controller
         $data = [
             "content" => $content,
             "url" => $url,
+
             "image" => $image
         ];
         try {

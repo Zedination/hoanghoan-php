@@ -50,7 +50,7 @@
                         Bảo hành sản phẩm lên đến 36 tháng
                     </div>
                     <br>
-                    <div class="fb-like" data-href="{{url()->current()}}" data-width="200" data-layout="standard" data-action="like" data-size="large" data-share="true"></div>
+                    <div class="fb-like" data-href="{{url()->current()}}" data-width="300" data-layout="standard" data-action="like" data-size="large" data-share="true"></div>
                 </div>
             </div>
             <div class="detail-info">

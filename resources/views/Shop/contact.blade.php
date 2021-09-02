@@ -36,38 +36,25 @@
                                 <form action="{{route('contact.post')}}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-group lien-he">
-                                        <input type="text" name="name" placeholder="Họ và tên" >
-                                        @if($errors->has('name'))
-                                            <div class="alert alert-danger alert-dismissible">
-                                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                                <h4><i class="icon fa fa-warning"></i> Lỗi!</h4>
-                                                <p>{{ $errors->first('name') }}</p>
-                                            </div>
-                                        @endif
-                                        <input type="text" name="email" placeholder="Email">
-                                        @if($errors->has('email'))
-                                            <div class="alert alert-danger alert-dismissible">
-                                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                                <h4><i class="icon fa fa-warning"></i> Lỗi!</h4>
-                                                <p>{{ $errors->first('email') }}</p>
-                                            </div>
-                                        @endif
-                                        <input type="text" name="phone" placeholder="Số điện thoại">
-                                        @if($errors->has('phone'))
-                                            <div class="alert alert-danger alert-dismissible">
-                                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                                <h4><i class="icon fa fa-warning"></i> Lỗi!</h4>
-                                                <p>{{ $errors->first('phone') }}</p>
-                                            </div>
-                                        @endif
-                                        <input type="text" name="contents" placeholder="Nội dung">
-                                        @if($errors->has('content'))
-                                            <div class="alert alert-danger alert-dismissible">
-                                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                                <h4><i class="icon fa fa-warning"></i> Lỗi!</h4>
-                                                <p>{{ $errors->first('content') }}</p>
-                                            </div>
-                                        @endif
+                                        @error('name')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                        <input type="text"
+                                               class="@error('name') is-invalid @enderror"
+                                               placeholder="Họ và tên" name="name" value="{{old('name')}}">
+
+                                        @error('email')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                        <input type="text" class="@error('name') is-invalid @enderror" name="email" placeholder="Email" value="{{old('email')}}">
+                                        @error('phone')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                        <input type="text" name="phone" class="@error('phone') is-invalid @enderror"  placeholder="Số điện thoại" value="{{old('phone')}}">
+                                        @error('contents')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                        <input type="text" name="contents" class="@error('contents') is-invalid @enderror" placeholder="Nội dung" value="{{old('contents')}}">
                                         <br>
                                         <button class="contact-send"> Gửi </button>
                                     </div>

@@ -7,6 +7,7 @@ use App\Article;
 use App\Banner;
 use App\Category;
 use App\Contact;
+use App\Http\Requests\ContactRequest;
 use App\Partner;
 use App\Products;
 use App\Setting;
@@ -28,7 +29,7 @@ class ShopController extends Controller
         $banners= Banner::all();
         return view('Shop.contact',compact('banners'));
     }
-    public function contactPost(Request $request){
+    public function contactPost(ContactRequest $request){
         $dataContact= array();
         $dataContact['name']=$request->name;
         $dataContact['email']=$request->email;
